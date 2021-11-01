@@ -25,14 +25,14 @@ void MeshProcessing::ComputeNormals(Mesh& mesh) {
     for (unsigned int i = 0; i < new_normals.size(); i+=3) {
         std::vector<float> adj_normals;
         for (unsigned int j = 0; j < triangles.size(); j++) {
-            if (triangles[j] == pos_index) {
-                float u_x = positions[triangles[j - j%3 + 1]] - positions[triangles[j - j%3]];
-                float u_y = positions[triangles[j - j%3 + 1] + 1] - positions[triangles[j - j%3] + 1];
-                float u_z = positions[triangles[j - j%3 + 1] + 2] - positions[triangles[j - j%3] + 2];
+            if (3*triangles[j] == pos_index) {
+                float u_x = positions[3*triangles[j - j%3 + 1]] - positions[3*triangles[j - j%3]];
+                float u_y = positions[3*triangles[j - j%3 + 1] + 1] - positions[3*triangles[j - j%3] + 1];
+                float u_z = positions[3*triangles[j - j%3 + 1] + 2] - positions[3*triangles[j - j%3] + 2];
 
-                float v_x = positions[triangles[j - j%3 + 2]] - positions[triangles[j - j%3]];
-                float v_y = positions[triangles[j - j%3 + 2] + 1] - positions[triangles[j - j%3] + 1];
-                float v_z = positions[triangles[j - j%3 + 2] + 2] - positions[triangles[j - j%3] + 2];
+                float v_x = positions[3*triangles[j - j%3 + 2]] - positions[3*triangles[j - j%3]];
+                float v_y = positions[3*triangles[j - j%3 + 2] + 1] - positions[3*triangles[j - j%3] + 1];
+                float v_z = positions[3*triangles[j - j%3 + 2] + 2] - positions[3*triangles[j - j%3] + 2];
 
                 float norm_x = u_y*v_z - u_z*v_y;
                 float norm_y = u_z*v_x - u_x*v_z;
@@ -77,34 +77,34 @@ void MeshProcessing::FilterMesh(const Mesh& input_mesh, Mesh& filtered_mesh, dou
     for (unsigned int i = 0; i < input_positions.size(); i+=3) {
         std::vector<float> adj_vertices;
         for (unsigned int j = 0; j < input_faces.size(); j++) {
-            if (input_faces[j] == i) {
+            if (3*input_faces[j] == i) {
                 switch(j%3) {
                     case 0 :
-                        adj_vertices.push_back(input_positions[input_faces[j+1]]);
-                        adj_vertices.push_back(input_positions[input_faces[j+1] + 1]);
-                        adj_vertices.push_back(input_positions[input_faces[j+1] + 2]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+1]]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+1] + 1]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+1] + 2]);
 
-                        adj_vertices.push_back(input_positions[input_faces[j+2]]);
-                        adj_vertices.push_back(input_positions[input_faces[j+2] + 1]);
-                        adj_vertices.push_back(input_positions[input_faces[j+2] + 2]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+2]]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+2] + 1]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+2] + 2]);
                         break;
                     case 1 :
-                        adj_vertices.push_back(input_positions[input_faces[j-1]]);
-                        adj_vertices.push_back(input_positions[input_faces[j-1] + 1]);
-                        adj_vertices.push_back(input_positions[input_faces[j-1] + 2]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-1]]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-1] + 1]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-1] + 2]);
 
-                        adj_vertices.push_back(input_positions[input_faces[j+1]]);
-                        adj_vertices.push_back(input_positions[input_faces[j+1] + 1]);
-                        adj_vertices.push_back(input_positions[input_faces[j+1] + 2]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+1]]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+1] + 1]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j+1] + 2]);
                         break;
                     case 2 :
-                        adj_vertices.push_back(input_positions[input_faces[j-2]]);
-                        adj_vertices.push_back(input_positions[input_faces[j-2] + 1]);
-                        adj_vertices.push_back(input_positions[input_faces[j-2] + 2]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-2]]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-2] + 1]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-2] + 2]);
 
-                        adj_vertices.push_back(input_positions[input_faces[j-1]]);
-                        adj_vertices.push_back(input_positions[input_faces[j-1] + 1]);
-                        adj_vertices.push_back(input_positions[input_faces[j-1] + 2]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-1]]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-1] + 1]);
+                        adj_vertices.push_back(input_positions[3*input_faces[j-1] + 2]);
                         break;
                 }
             }
