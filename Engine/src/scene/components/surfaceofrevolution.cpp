@@ -9,6 +9,7 @@
  ****************************************************************************/
 #include "surfaceofrevolution.h"
 #include <fileio.h>
+#include <math.h>
 
 REGISTER_COMPONENT(SurfaceOfRevolution, Geometry)
 
@@ -55,10 +56,44 @@ std::unique_ptr<Mesh> SurfaceOfRevolution::CreateMesh(const std::vector<glm::vec
     // REQUIREMENT: Compute and set vertex positions, normals, UVs, and triangle faces
 
     // you need to change the size of these arrays
-    std::vector<float> vertices(3);
-    std::vector<float> normals(3);
-    std::vector<float> UVs(3);
-    std::vector<unsigned int> triangles(1);
+    std::vector<float> vertices(3*subdivisions*curve_points.size());
+    std::vector<float> normals(3*subdivisions*curve_points.size());
+    std::vector<float> UVs(2*subdivisions*curve_points.size());
+    std::vector<unsigned int> triangles(6*subdivisions*(curve_points.size()-1));
+
+    unsigned int v_index = 0;
+    unsigned int n_index = 0;
+    unsigned int uv_index = 0;
+    unsigned int tri_index = 0;
+
+    for (unsigned int i = 0; i < subdivisions; i++) {
+        for (unsigned int j = 0; j < curve_points.size(); j++) {
+            vertices[v_index++] = curve_points[j].x * cosf(360.0f/subdivisions*i*M_PI/180.0f); // + 0*y + sin(theta)*z // z = 0
+            vertices[v_index++] = curve_points[j].y;
+            vertices[v_index++] = curve_points[j].x * (-sinf(360.0f/subdivisions*i*M_PI/180.0f)); // + 0*y + cos(theta)*z // z = 0
+
+            float norm_x = curve_points[j+1 < curve_points.size() ? j+1 : j].y - curve_points[j+1 < curve_points.size() ? j : j-1].y;
+            float norm_y = curve_points[j+1 < curve_points.size() ? j : j-1].x - curve_points[j+1 < curve_points.size() ? j+1 : j].x;
+            float mag = sqrt(2*norm_x*norm_x + norm_y*norm_y);
+            normals[n_index++] = norm_x/mag * cosf(360.0f/subdivisions*i*M_PI/180.0f); // + 0*y + sin(theta)*z // z = 0
+            normals[n_index++] = norm_y/mag;
+            normals[n_index++] = norm_x/mag * (-sinf(360.0f/subdivisions*i*M_PI/180.0f)); // + 0*y + cos(theta)*z // z = 0
+
+            UVs[uv_index++] = i*1.0f/subdivisions;
+            UVs[uv_index++] = curve_points[j].y;
+
+            if (j > 0) {
+                triangles[tri_index++] = (i == 0 ? subdivisions-1 : i-1)*curve_points.size() + j;
+                triangles[tri_index++] = i*curve_points.size() + j;
+                triangles[tri_index++] = i*curve_points.size() + j - 1;
+
+                triangles[tri_index++] = i*curve_points.size() + j - 1;
+                triangles[tri_index++] = (i == 0 ? subdivisions-1 : i-1)*curve_points.size() + j - 1;
+                triangles[tri_index++] = (i == 0 ? subdivisions-1 : i-1)*curve_points.size() + j;
+            }
+        }
+    }
+
 
 
     surface->SetPositions(vertices);
