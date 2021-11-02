@@ -70,8 +70,8 @@ vec3 PointLightContribution(int light_num) {
     vec3 specular = B * pow(max(dot(N,H),0.0), shininess) * SpecularColor * point_light_intensity[light_num];
 
     vec3 rVec = point_light_position[light_num] - world_vertex;
-    float r = sqrt(rVec.x*rVec.x + rVec.y*rVec.y + rVec.z*rVec.z);
-    float atten = 1000/(point_light_atten_quad[light_num]*r*r + point_light_atten_linear[light_num]*r + point_light_atten_const[light_num]);
+    float r = length(rVec);
+    float atten = clamp(1.0f/(point_light_atten_quad[light_num]*r*r + point_light_atten_linear[light_num]*r + point_light_atten_const[light_num]), 0.0, 1.0);
     return (ambient + (diffuse + specular)*atten);
 
 
