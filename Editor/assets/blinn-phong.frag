@@ -57,10 +57,9 @@ vec3 PointLightContribution(int light_num) {
 
     // REQUIREMENT: Compute the point light contribution for this light
     vec3 N = normalize(world_normal);
-    vec3 L = -normalize(point_light_position[light_num]);
+    vec3 L = normalize(point_light_position[light_num] - world_vertex);
     vec3 V = normalize(world_eye - world_vertex);
     vec3 H = normalize(V+L);
-    vec3 S = normalize(point_light_position[light_num] - world_vertex);
 
     float B = 1.0;
     if (dot(N, L) < 0.00001) { B = 0.0; }
@@ -70,12 +69,10 @@ vec3 PointLightContribution(int light_num) {
     float shininess = Shininess > 0 ? Shininess : 0.00001;
     vec3 specular = B * pow(max(dot(N,H),0.0), shininess) * SpecularColor * point_light_intensity[light_num];
 
-    float r = point_light_position[light_num] - world_normal;
-
-    float f_point = (dot(L,S)/ (point_light_atten_quad[light_num] * (r*r) + point_light_atten_linear[light_num] * r + point_light_atten_const[light_num]))
-            * point_light_intensity[light_num];
-
-    return (ambient + diffuse + specular + f_point);
+    vec3 rVec = point_light_position[light_num] - world_vertex;
+    float r = sqrt(rVec.x*rVec.x + rVec.y*rVec.y + rVec.z*rVec.z);
+    float atten = 1000/(point_light_atten_quad[light_num]*r*r + point_light_atten_linear[light_num]*r + point_light_atten_const[light_num]);
+    return (ambient + (diffuse + specular)*atten);
 
 
     // modify the following codes once you have implemented this requirement
