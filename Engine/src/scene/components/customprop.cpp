@@ -27,9 +27,9 @@ void CustomProp::OnAngleChanged(double angle)
 
     // REQUIREMENT: Modify the code snippet below to realize your customized control for your created model
     //              You could also refer to RobotArmProp.cpp to know how it works
-    /*////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
     // Find the child node whose name is "PUT_YOUR_PART_NAME_HERE"
-    SceneObject *p_part = mp_root->FindDescendantByName("PUT_YOUR_PART_NAME_HERE");}
+    SceneObject *p_part = mp_root->FindDescendantByName("paul");
     if (!p_part)
         return;
 
@@ -42,7 +42,7 @@ void CustomProp::OnAngleChanged(double angle)
         rotate_vec.z = angle;
         p_trans->Rotation.Set(rotate_vec);
     }
-    ////////////////////////////////////////////////////////////////////*/
+    ////////////////////////////////////////////////////////////////////
 }
 
 /*

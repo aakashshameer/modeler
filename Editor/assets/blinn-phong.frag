@@ -31,43 +31,64 @@ vec3 DiffuseColor;
 vec3 SpecularColor;
 
 vec3 DirLightContribution(int light_num) {
-	// Directional Light Vectors
-	vec3 N = normalize(world_normal);
-	vec3 V = normalize(world_eye - world_vertex);
-	vec3 L = -normalize(dir_light_direction[light_num]);
-	vec3 H = normalize(V+L);
+    // Directional Light Vectors
+    vec3 N = normalize(world_normal);
+    vec3 V = normalize(world_eye - world_vertex);
+    vec3 L = -normalize(dir_light_direction[light_num]);
+    vec3 H = normalize(V+L);
 
-	// B factor
-	float B = 1.0;
-	if (dot(N, L) < 0.00001) { B = 0.0; }
+    // B factor
+    float B = 1.0;
+    if (dot(N, L) < 0.00001) { B = 0.0; }
 
-	// Contribution
-	float diffuseShade = max(dot(N, L), 0.0);
-	float shininess = Shininess > 0 ? Shininess : 0.00001;
-	float specularShade = B * pow(max(dot(H, N), 0.0), shininess);
+    // Contribution
+    float diffuseShade = max(dot(N, L), 0.0);
+    float shininess = Shininess > 0 ? Shininess : 0.00001;
+    float specularShade = B * pow(max(dot(H, N), 0.0), shininess);
 
-	vec3 ambient = DiffuseColor * dir_light_ambient[light_num];
-	vec3 diffuse = diffuseShade * DiffuseColor * dir_light_intensity[light_num];
-	vec3 specular = specularShade * SpecularColor * dir_light_intensity[light_num];
+    vec3 ambient = DiffuseColor * dir_light_ambient[light_num];
+    vec3 diffuse = diffuseShade * DiffuseColor * dir_light_intensity[light_num];
+    vec3 specular = specularShade * SpecularColor * dir_light_intensity[light_num];
 
-	return ambient + diffuse + specular;
+    return ambient + diffuse + specular;
 }
 
 vec3 PointLightContribution(int light_num) {
-	// REQUIREMENT: Compute the point light contribution for this light
+
+    // REQUIREMENT: Compute the point light contribution for this light
+    vec3 N = normalize(world_normal);
+    vec3 L = -normalize(point_light_position[light_num]);
+    vec3 V = normalize(world_eye - world_vertex);
+    vec3 H = normalize(V+L);
+    vec3 S = normalize(point_light_position[light_num] - world_vertex);
+
+    float B = 1.0;
+    if (dot(N, L) < 0.00001) { B = 0.0; }
+
+    vec3 ambient = DiffuseColor * point_light_ambient[light_num];
+    vec3 diffuse = max(dot(N,L), 0.0) * DiffuseColor * point_light_intensity[light_num];
+    float shininess = Shininess > 0 ? Shininess : 0.00001;
+    vec3 specular = B * pow(max(dot(N,H),0.0), shininess) * SpecularColor * point_light_intensity[light_num];
+
+    float r = point_light_position[light_num] - world_normal;
+
+    float f_point = (dot(L,S)/ (point_light_atten_quad[light_num] * (r*r) + point_light_atten_linear[light_num] * r + point_light_atten_const[light_num]))
+            * point_light_intensity[light_num];
+
+    return (ambient + diffuse + specular + f_point);
+
 
     // modify the following codes once you have implemented this requirement
-    return vec3(0, 0, 0);
 }
 
 void main() {
-	// Collect contributions from the lights
-	EmissiveColor = texture(Emissive, UV).xyz;
-	DiffuseColor = texture(Diffuse, UV).xyz;
-	SpecularColor = texture(Specular, UV).xyz;
-	vec3 dirlight_contribution = vec3(0, 0, 0);
-	for (int i = 0; i < 4; i++) dirlight_contribution += DirLightContribution(i);
-	vec3 pointlight_contribution = vec3(0, 0, 0);
-	for (int i = 0; i < 4; i++) pointlight_contribution += PointLightContribution(i);
+    // Collect contributions from the lights
+    EmissiveColor = texture(Emissive, UV).xyz;
+    DiffuseColor = texture(Diffuse, UV).xyz;
+    SpecularColor = texture(Specular, UV).xyz;
+    vec3 dirlight_contribution = vec3(0, 0, 0);
+    for (int i = 0; i < 4; i++) dirlight_contribution += DirLightContribution(i);
+    vec3 pointlight_contribution = vec3(0, 0, 0);
+    for (int i = 0; i < 4; i++) pointlight_contribution += PointLightContribution(i);
     frag_color = vec4(dirlight_contribution + pointlight_contribution + EmissiveColor, 1.0);
 }
