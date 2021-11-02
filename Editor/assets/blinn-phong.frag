@@ -72,7 +72,7 @@ vec3 PointLightContribution(int light_num) {
     vec3 rVec = point_light_position[light_num] - world_vertex;
     float r = length(rVec);
     float atten = (point_light_atten_quad[light_num]*r*r + point_light_atten_linear[light_num]*r + point_light_atten_const[light_num]);
-    return (ambient + (diffuse + specular)/(atten == 0 ? 1 : atten));
+    return (atten == 0 ? vec3(0, 0, 0) : ambient + (diffuse + specular)/atten);
 
 
     // modify the following codes once you have implemented this requirement
