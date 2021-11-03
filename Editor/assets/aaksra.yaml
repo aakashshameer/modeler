@@ -1,0 +1,428 @@
+Name: aaksra
+Animation Length: 20
+Animation FPS: 30
+Textures:
+    Alpha Test Texture:
+        Bilinear: true
+        Path: assets/alpha_test.png
+    Checkers Texture:
+        Bilinear: true
+        Path: assets/checkers.png
+Cubemaps:
+    {}
+Meshes:
+    {}
+Materials:
+    Alpha Test Material:
+        Shader: Alpha Test Shader
+        Uniforms:
+            DiffuseMap:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: Alpha Test Texture
+                Use Texture: true
+    Blinn-Phong Material:
+        Shader: Blinn-Phong Shader
+        Uniforms:
+            Diffuse:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0.75
+                Color Map: ""
+                Use Texture: false
+            Emissive:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+            IndexOfRefraction: 1
+            Shininess: 20
+            Specular:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: ""
+                Use Texture: false
+            Transmittence:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+    Blinn-Phong Spotlight Material:
+        Shader: Blinn-Phong Spotlight Shader
+        Uniforms:
+            Diffuse:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0.75
+                Color Map: ""
+                Use Texture: false
+            Emissive:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+            IndexOfRefraction: 1
+            Shininess: 20
+            Specular:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: ""
+                Use Texture: false
+            Transmittence:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+    Depth Map Material:
+        Shader: Depth Shader
+        Uniforms:
+            {}
+    Emissive:
+        Shader: Emissive Shader
+        Uniforms:
+            AmbientColor:
+                A:  1
+                B:  1
+                G:  1
+                R:  1
+            Color:
+                A:  1
+                B:  1
+                G:  1
+                R:  1
+            ConstantAttenuation: 1
+            LinearAttenuation: 0
+            QuadraticAttenuation: 0
+    Textured Material:
+        Shader: Textured Shader
+        Uniforms:
+            DiffuseMap:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: Checkers Texture
+                Use Texture: true
+    Toon Material:
+        Shader: Toon Shader
+        Uniforms:
+            Diffuse:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0.75
+                Color Map: ""
+                Use Texture: false
+            Emissive:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+            IndexOfRefraction: 1
+            Shininess: 20
+            Specular:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: ""
+                Use Texture: false
+            Transmittence:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+ShaderPrograms:
+    Alpha Test Shader:
+        Fragment: assets/alpha-test.frag
+        Geometry: ""
+        Trace Compatible: false
+        Vertex: assets/texture.vert
+    Blinn-Phong Shader:
+        Fragment: assets/blinn-phong.frag
+        Geometry: ""
+        Trace Compatible: true
+        Vertex: assets/blinn-phong.vert
+    Blinn-Phong Spotlight Shader:
+        Fragment: assets/blinn-phong-spotlight.frag
+        Geometry: ""
+        Trace Compatible: true
+        Vertex: assets/blinn-phong.vert
+    Depth Shader:
+        Fragment: ""
+        Geometry: ""
+        Trace Compatible: false
+        Vertex: assets/internal/position.vert
+    Emissive Shader:
+        Fragment: assets/emissive.frag
+        Geometry: ""
+        Trace Compatible: false
+        Vertex: assets/blinn-phong.vert
+    Textured Shader:
+        Fragment: assets/texture.frag
+        Geometry: ""
+        Trace Compatible: false
+        Vertex: assets/texture.vert
+    Toon Shader:
+        Fragment: assets/cartoon.frag
+        Geometry: ""
+        Trace Compatible: true
+        Vertex: assets/blinn-phong.vert
+Root:
+    Name: Root
+    Enabled: true
+    Components:
+        Transform:
+            Rotation:
+                X:  0
+                Y:  0
+                Z:  0
+            Scale:
+                X:  1
+                Y:  1
+                Z:  1
+            Translation:
+                X:  0
+                Y:  0
+                Z:  0
+    Children:
+        -   Name: Aakash's Model
+            Enabled: true
+            Components:
+                Transform:
+                    Rotation:
+                        X:  0
+                        Y:  0
+                        Z:  0
+                    Scale:
+                        X:  1
+                        Y:  1
+                        Z:  1
+                    Translation:
+                        X:  0
+                        Y:  0
+                        Z:  0
+            Children:
+                -   Name: Plane
+                    Enabled: true
+                    Components:
+                        Plane:
+                            Material: Toon Material
+                            Subdivisions: 0
+                        Transform:
+                            Rotation:
+                                X:  -89.994
+                                Y:  -4.9894e-05
+                                Z:  -0.001094
+                            Scale:
+                                X:  2
+                                Y:  2
+                                Z:  2
+                            Translation:
+                                X:  0.0018944
+                                Y:  -0.0070569
+                                Z:  0.00099155
+                    Children:
+                        -   Name: Space Needle
+                            Enabled: true
+                            Components:
+                                SurfaceOfRevolution:
+                                    Curve: assets/curves/sample4_curve.apts
+                                    Material: Blinn-Phong Material
+                                    Quality: 0
+                                Transform:
+                                    Rotation:
+                                        X:  89.994
+                                        Y:  0.001094
+                                        Z:  -4.9786e-05
+                                    Scale:
+                                        X:  0.125
+                                        Y:  0.125
+                                        Z:  0.125
+                                    Translation:
+                                        X:  -0.24816
+                                        Y:  -0.16615
+                                        Z:  0.3842
+                            Children:
+                                []
+                        -   Name: Building Coor
+                            Enabled: true
+                            Components:
+                                Transform:
+                                    Rotation:
+                                        X:  90
+                                        Y:  90
+                                        Z:  -4.9779e-05
+                                    Scale:
+                                        X:  1
+                                        Y:  1
+                                        Z:  1
+                                    Translation:
+                                        X:  -0.49444
+                                        Y:  0.49356
+                                        Z:  -0.49999
+                            Children:
+                                -   Name: Building
+                                    Enabled: true
+                                    Components:
+                                        Cylinder:
+                                            Material: Toon Material
+                                            Subdivisions: 3
+                                        Transform:
+                                            Rotation:
+                                                X:  -5.9684e-19
+                                                Y:  170
+                                                Z:  13
+                                            Scale:
+                                                X:  0.25
+                                                Y:  1
+                                                Z:  0.25
+                                            Translation:
+                                                X:  -0.21622
+                                                Y:  0.78889
+                                                Z:  0.31546
+                                        CustomProp:
+                                            Angle: 13
+                                    Children:
+                                        -   Name: Cube Coor
+                                            Enabled: true
+                                            Components:
+                                                Transform:
+                                                    Rotation:
+                                                        X:  101.09
+                                                        Y:  46.753
+                                                        Z:  -104.31
+                                                    Scale:
+                                                        X:  1.9986
+                                                        Y:  0.65916
+                                                        Z:  1.5182
+                                                    Translation:
+                                                        X:  0.68535
+                                                        Y:  -0.33244
+                                                        Z:  -0.89359
+                                            Children:
+                                                -   Name: Cube
+                                                    Enabled: true
+                                                    Components:
+                                                        TriangleMesh:
+                                                            LoopSubdivision: 0
+                                                            Material: Toon Material
+                                                            Mesh: Cube
+                                                        Transform:
+                                                            Rotation:
+                                                                X:  75
+                                                                Y:  45
+                                                                Z:  7
+                                                            Scale:
+                                                                X:  0.75
+                                                                Y:  0.5
+                                                                Z:  0.5
+                                                            Translation:
+                                                                X:  -0.48053
+                                                                Y:  0.11564
+                                                                Z:  -0.81602
+                                                    Children:
+                                                        []
+        -   Name: Directional Light 1
+            Enabled: true
+            Components:
+                DirectionalLight:
+                    Ambient:
+                        A:  1
+                        B:  0
+                        G:  0
+                        R:  0
+                    Angular Size (Trace): 0.59
+                    Color:
+                        A:  1
+                        B:  1
+                        G:  1
+                        R:  1
+                    Intensity Multiplier: 2.75
+                Transform:
+                    Rotation:
+                        X:  0
+                        Y:  0
+                        Z:  0
+                    Scale:
+                        X:  1
+                        Y:  1
+                        Z:  1
+                    Translation:
+                        X:  0
+                        Y:  2.5048
+                        Z:  0
+            Children:
+                []
+        -   Name: Point Light 1
+            Enabled: true
+            Components:
+                PointLight:
+                    Ambient:
+                        A:  1
+                        B:  0
+                        G:  0
+                        R:  0
+                    Color:
+                        A:  1
+                        B:  1
+                        G:  1
+                        R:  1
+                    Const Atten: 0.16
+                    Linear Atten: 0.16
+                    Quad Atten: 0.11
+                    Radius (Trace): 0
+                Transform:
+                    Rotation:
+                        X:  -45
+                        Y:  0
+                        Z:  -4.5
+                    Scale:
+                        X:  2
+                        Y:  2
+                        Z:  2
+                    Translation:
+                        X:  1
+                        Y:  1
+                        Z:  0
+                EnvironmentMap:
+                    Far Plane: 100
+                    Near Plane: 0.1
+                    Render Material: Depth Map Material
+                    Resolution (px): 400
+            Children:
+                []
