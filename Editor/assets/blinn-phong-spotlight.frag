@@ -61,8 +61,36 @@ vec3 SpotLightContribution(int light_num) {
 	if (spot_light_direction[light_num] == vec3(0, 0, 0))
 		return ambient;
 
+        vec3 N = normalize(world_normal);
+        vec3 V = normalize(world_eye - world_vertex);
+        vec3 L = normalize(spot_light_position[light_num] - world_vertex);
+        vec3 H = normalize(V+L);
+        vec3 S = -normalize(spot_light_direction[light_num]);
+
+        float B = 1.0;
+        if (dot(N,L) < 0.00001) { B = 0.0; }
+
+        vec3 diffuse = max(dot(L,N), 0.0) * DiffuseColor * spot_light_intensity[light_num];
+        float shininess = Shininess > 0 ? Shininess : 0.00001;
+        vec3 specular = pow(max(dot(N,H), 0.0), shininess) * SpecularColor * spot_light_intensity[light_num];
+
+        float e = spot_light_falloff[light_num];
+        vec3 rVec = spot_light_position[light_num] - world_vertex;
+        float r = length(rVec);
+
+        float atten = (spot_light_atten_quad[light_num] * (r*r) + spot_light_atten_linear[light_num] * r + spot_light_atten_const[light_num]); // denominator
+        float f_spot = pow(dot(L,S),e); // numerator
+
+        float alpha = acos(dot(S,L)) * 180/3.1415926535897932384626433832795;
+
+        if (alpha > spot_light_cutoff[light_num]) {
+            f_spot = 0.0f;
+        }
+
+        return atten == 0 ? vec3(0,0,0) : ambient + (diffuse + specular) * f_spot/atten;
+
 	// EXTRA CREDIT: Modify the following codes to implmenet your spotlight shader 
-	return vec3(0, 0, 0);
+        // return vec3(0, 0, 0);
 }
 
 void main() {
