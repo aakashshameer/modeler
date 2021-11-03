@@ -29,7 +29,7 @@ void CustomProp::OnAngleChanged(double angle)
     //              You could also refer to RobotArmProp.cpp to know how it works
     ////////////////////////////////////////////////////////////////////
     // Find the child node whose name is "PUT_YOUR_PART_NAME_HERE"
-    SceneObject *p_part = mp_root->FindDescendantByName("paul");
+    SceneObject *p_part = mp_root->FindDescendantByName("Building");
     if (!p_part)
         return;
 
