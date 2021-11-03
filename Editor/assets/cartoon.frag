@@ -27,12 +27,67 @@ vec3 EmissiveColor;
 vec3 DiffuseColor;
 vec3 SpecularColor;
 
+vec3 DirLightContribution(int light_num) {
+    // Directional Light Vectors
+    vec3 N = normalize(world_normal);
+    vec3 V = normalize(world_eye - world_vertex);
+    vec3 L = -normalize(dir_light_direction[light_num]);
+    vec3 H = normalize(V+L);
+
+    // B factor
+    float B = 1.0;
+    if (dot(N, L) < 0.00001) { B = 0.0; }
+
+    // Contribution
+    float diffuseShade = max(dot(N, L), 0.0);
+    float shininess = Shininess > 0 ? Shininess : 0.00001;
+    float specularShade = B * pow(max(dot(H, N), 0.0), shininess);
+
+    vec3 ambient = DiffuseColor * dir_light_ambient[light_num];
+    vec3 diffuse = diffuseShade * DiffuseColor * dir_light_intensity[light_num];
+    vec3 specular = specularShade * SpecularColor * dir_light_intensity[light_num];
+
+    diffuse = length(diffuse) > 0.4 ? DiffuseColor*dir_light_intensity[light_num] : 0.7*DiffuseColor*dir_light_intensity[light_num];
+    specular = length(specular) > 0.8 ? SpecularColor*dir_light_intensity[light_num] : vec3(0, 0, 0);
+    float sill = dot(N, V) > 0.3 ? 1 : 0;
+
+    return sill*(ambient + diffuse + specular);
+}
+
+vec3 PointLightContribution(int light_num) {
+    vec3 N = normalize(world_normal);
+    vec3 L = normalize(point_light_position[light_num] - world_vertex);
+    vec3 V = normalize(world_eye - world_vertex);
+    vec3 H = normalize(V+L);
+
+    float B = 1.0;
+    if (dot(N, L) < 0.00001) { B = 0.0; }
+
+    vec3 ambient = DiffuseColor * point_light_ambient[light_num];
+    vec3 diffuse = max(dot(N,L), 0.0) * DiffuseColor * point_light_intensity[light_num];
+    float shininess = Shininess > 0 ? Shininess : 0.00001;
+    vec3 specular = B * pow(max(dot(N,H),0.0), shininess) * SpecularColor * point_light_intensity[light_num];
+
+    vec3 rVec = point_light_position[light_num] - world_vertex;
+    float r = length(rVec);
+    float atten = (point_light_atten_quad[light_num]*r*r + point_light_atten_linear[light_num]*r + point_light_atten_const[light_num]);
+
+    diffuse = length(diffuse) > 0.4 ? DiffuseColor*point_light_intensity[light_num] : 0.7*DiffuseColor*dir_light_intensity[light_num];
+    specular = length(specular) > 0.8 ? SpecularColor*point_light_intensity[light_num] : vec3(0, 0, 0);
+    float sill = dot(N, V) > 0.3 ? 1 : 0;
+
+    return sill*(atten == 0 ? vec3(0, 0, 0) : ambient + (diffuse + specular)/atten);
+}
+
 void main()
 {
+    // Collect contributions from the lights
     EmissiveColor = texture(Emissive, UV).xyz;
     DiffuseColor = texture(Diffuse, UV).xyz;
     SpecularColor = texture(Specular, UV).xyz;
-
-    // EXTRA CREDIT: Modify the following codes to implmenet your cartoon shader 
-    frag_color = vec4(EmissiveColor, 1.0);
+    vec3 dirlight_contribution = vec3(0, 0, 0);
+    for (int i = 0; i < 4; i++) dirlight_contribution += DirLightContribution(i);
+    vec3 pointlight_contribution = vec3(0, 0, 0);
+    for (int i = 0; i < 4; i++) pointlight_contribution += PointLightContribution(i);
+    frag_color = vec4(dirlight_contribution + pointlight_contribution + EmissiveColor, 1.0);
 }

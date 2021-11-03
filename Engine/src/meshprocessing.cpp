@@ -9,7 +9,6 @@
  ****************************************************************************/
 #include "meshprocessing.h"
 #include <algorithm>
-#include <unordered_set>
 
 void MeshProcessing::ComputeNormals(Mesh& mesh) {
     // REQUIREMENT: Recompute the normals for a mesh by taking average of the normals of the adjacent faces
