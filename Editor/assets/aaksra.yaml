@@ -241,7 +241,7 @@ Root:
                     Enabled: true
                     Components:
                         Plane:
-                            Material: Blinn-Phong Material
+                            Material: Toon Material
                             Subdivisions: 0
                         Transform:
                             Rotation:
@@ -300,7 +300,7 @@ Root:
                                     Enabled: true
                                     Components:
                                         Cylinder:
-                                            Material: Blinn-Phong Material
+                                            Material: Toon Material
                                             Subdivisions: 3
                                         Transform:
                                             Rotation:
@@ -340,7 +340,7 @@ Root:
                                                     Components:
                                                         TriangleMesh:
                                                             LoopSubdivision: 0
-                                                            Material: Blinn-Phong Material
+                                                            Material: Toon Material
                                                             Mesh: Cube
                                                         Transform:
                                                             Rotation:
