@@ -19,6 +19,9 @@ protected:
     void OnYourPropChanged(double your_prop);
     */
 
+    DoubleProperty m_RAF;
+    void OnRAFChanged(double raf);
+
     SceneObject *mp_root;
 };
 

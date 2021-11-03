@@ -1,0 +1,669 @@
+Name: ehusted_newnewnew
+Animation Length: 20
+Animation FPS: 30
+Textures:
+    Alpha Test Texture:
+        Bilinear: true
+        Path: assets/alpha_test.png
+    Checkers Texture:
+        Bilinear: true
+        Path: assets/checkers.png
+Cubemaps:
+    {}
+Meshes:
+    {}
+Materials:
+    Alpha Test Material:
+        Shader: Alpha Test Shader
+        Uniforms:
+            DiffuseMap:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: Alpha Test Texture
+                Use Texture: true
+    Blinn-Phong Material:
+        Shader: Blinn-Phong Shader
+        Uniforms:
+            Diffuse:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0.75
+                Color Map: ""
+                Use Texture: false
+            Emissive:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+            IndexOfRefraction: 1
+            Shininess: 20
+            Specular:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: ""
+                Use Texture: false
+            Transmittence:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+    Blinn-Phong Spotlight Material:
+        Shader: Blinn-Phong Spotlight Shader
+        Uniforms:
+            Diffuse:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0.75
+                Color Map: ""
+                Use Texture: false
+            Emissive:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+            IndexOfRefraction: 1
+            Shininess: 20
+            Specular:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: ""
+                Use Texture: false
+            Transmittence:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+    Depth Map Material:
+        Shader: Depth Shader
+        Uniforms:
+            {}
+    Emissive:
+        Shader: Emissive Shader
+        Uniforms:
+            AmbientColor:
+                A:  1
+                B:  1
+                G:  1
+                R:  1
+            Color:
+                A:  1
+                B:  1
+                G:  1
+                R:  1
+            ConstantAttenuation: 1
+            LinearAttenuation: 0
+            QuadraticAttenuation: 0
+    Textured Material:
+        Shader: Textured Shader
+        Uniforms:
+            DiffuseMap:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: Checkers Texture
+                Use Texture: true
+    Toon Material:
+        Shader: Toon Shader
+        Uniforms:
+            Diffuse:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0.75
+                Color Map: ""
+                Use Texture: false
+            Emissive:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+            IndexOfRefraction: 1
+            Shininess: 20
+            Specular:
+                Color:
+                    A:  1
+                    B:  0.5
+                    G:  0.5
+                    R:  0.5
+                Color Map: ""
+                Use Texture: false
+            Transmittence:
+                Color:
+                    A:  1
+                    B:  0
+                    G:  0
+                    R:  0
+                Color Map: ""
+                Use Texture: false
+ShaderPrograms:
+    Alpha Test Shader:
+        Fragment: assets/alpha-test.frag
+        Geometry: ""
+        Trace Compatible: false
+        Vertex: assets/texture.vert
+    Blinn-Phong Shader:
+        Fragment: assets/blinn-phong.frag
+        Geometry: ""
+        Trace Compatible: true
+        Vertex: assets/blinn-phong.vert
+    Blinn-Phong Spotlight Shader:
+        Fragment: assets/blinn-phong-spotlight.frag
+        Geometry: ""
+        Trace Compatible: true
+        Vertex: assets/blinn-phong.vert
+    Depth Shader:
+        Fragment: ""
+        Geometry: ""
+        Trace Compatible: false
+        Vertex: assets/internal/position.vert
+    Emissive Shader:
+        Fragment: assets/emissive.frag
+        Geometry: ""
+        Trace Compatible: false
+        Vertex: assets/blinn-phong.vert
+    Textured Shader:
+        Fragment: assets/texture.frag
+        Geometry: ""
+        Trace Compatible: false
+        Vertex: assets/texture.vert
+    Toon Shader:
+        Fragment: assets/cartoon.frag
+        Geometry: ""
+        Trace Compatible: true
+        Vertex: assets/blinn-phong.vert
+Root:
+    Name: Root
+    Enabled: true
+    Components:
+        Transform:
+            Rotation:
+                X:  0
+                Y:  0
+                Z:  0
+            Scale:
+                X:  1
+                Y:  1
+                Z:  1
+            Translation:
+                X:  0
+                Y:  0
+                Z:  0
+    Children:
+        -   Name: Key Light
+            Enabled: true
+            Components:
+                DirectionalLight:
+                    Ambient:
+                        A:  1
+                        B:  0
+                        G:  0
+                        R:  0
+                    Angular Size (Trace): 0
+                    Color:
+                        A:  1
+                        B:  1
+                        G:  1
+                        R:  1
+                    Intensity Multiplier: 1.5
+                Transform:
+                    Rotation:
+                        X:  45
+                        Y:  45
+                        Z:  0
+                    Scale:
+                        X:  1
+                        Y:  1
+                        Z:  1
+                    Translation:
+                        X:  1.0978
+                        Y:  4.0191
+                        Z:  2.4665
+            Children:
+                []
+        -   Name: Fill Light
+            Enabled: true
+            Components:
+                DirectionalLight:
+                    Ambient:
+                        A:  1
+                        B:  0
+                        G:  0
+                        R:  0
+                    Angular Size (Trace): 0
+                    Color:
+                        A:  1
+                        B:  0
+                        G:  0
+                        R:  0.3
+                    Intensity Multiplier: 1
+                Transform:
+                    Rotation:
+                        X:  -135
+                        Y:  45
+                        Z:  0
+                    Scale:
+                        X:  1
+                        Y:  1
+                        Z:  1
+                    Translation:
+                        X:  0
+                        Y:  -1.4142
+                        Z:  -1.4142
+            Children:
+                []
+        -   Name: Torso
+            Enabled: true
+            Components:
+                CustomProp:
+                    Angle: 0
+                    Ready, Aim, Fire: 1
+                Transform:
+                    Rotation:
+                        X:  0
+                        Y:  0
+                        Z:  0
+                    Scale:
+                        X:  1
+                        Y:  1
+                        Z:  1
+                    Translation:
+                        X:  0
+                        Y:  2.5
+                        Z:  0
+            Children:
+                -   Name: TSphere
+                    Enabled: true
+                    Components:
+                        Sphere:
+                            Material: Toon Material
+                            Quality: 4
+                        Transform:
+                            Rotation:
+                                X:  0
+                                Y:  0
+                                Z:  0
+                            Scale:
+                                X:  1
+                                Y:  2.5
+                                Z:  1
+                            Translation:
+                                X:  0
+                                Y:  0
+                                Z:  0
+                    Children:
+                        []
+                -   Name: Head
+                    Enabled: true
+                    Components:
+                        Transform:
+                            Rotation:
+                                X:  0
+                                Y:  0
+                                Z:  0
+                            Scale:
+                                X:  1
+                                Y:  1
+                                Z:  1
+                            Translation:
+                                X:  0
+                                Y:  1.7
+                                Z:  0
+                    Children:
+                        -   Name: HSphere
+                            Enabled: true
+                            Components:
+                                Sphere:
+                                    Material: Toon Material
+                                    Quality: 4
+                                Transform:
+                                    Rotation:
+                                        X:  0
+                                        Y:  0
+                                        Z:  0
+                                    Scale:
+                                        X:  1
+                                        Y:  1
+                                        Z:  1
+                                    Translation:
+                                        X:  0
+                                        Y:  0
+                                        Z:  0
+                            Children:
+                                []
+                -   Name: Right Arm
+                    Enabled: true
+                    Components:
+                        Transform:
+                            Rotation:
+                                X:  0
+                                Y:  -100
+                                Z:  15
+                            Scale:
+                                X:  1
+                                Y:  1
+                                Z:  1
+                            Translation:
+                                X:  0.5
+                                Y:  0.3
+                                Z:  0
+                    Children:
+                        -   Name: RASphere
+                            Enabled: true
+                            Components:
+                                Sphere:
+                                    Material: Toon Material
+                                    Quality: 4
+                                Transform:
+                                    Rotation:
+                                        X:  0
+                                        Y:  0
+                                        Z:  0
+                                    Scale:
+                                        X:  1.7
+                                        Y:  0.5
+                                        Z:  0.5
+                                    Translation:
+                                        X:  0.7
+                                        Y:  0
+                                        Z:  0
+                            Children:
+                                []
+                        -   Name: Bow
+                            Enabled: true
+                            Components:
+                                Transform:
+                                    Rotation:
+                                        X:  5
+                                        Y:  30
+                                        Z:  -15
+                                    Scale:
+                                        X:  1
+                                        Y:  1
+                                        Z:  1
+                                    Translation:
+                                        X:  1.3
+                                        Y:  0.2
+                                        Z:  0.1
+                            Children:
+                                -   Name: BMesh
+                                    Enabled: true
+                                    Components:
+                                        TriangleMesh:
+                                            LoopSubdivision: 0
+                                            Material: Toon Material
+                                            Mesh: Banana
+                                        Transform:
+                                            Rotation:
+                                                X:  0
+                                                Y:  -90
+                                                Z:  90
+                                            Scale:
+                                                X:  3
+                                                Y:  1
+                                                Z:  2
+                                            Translation:
+                                                X:  0
+                                                Y:  0
+                                                Z:  0
+                                    Children:
+                                        []
+                                -   Name: Arrow
+                                    Enabled: true
+                                    Components:
+                                        Transform:
+                                            Rotation:
+                                                X:  0
+                                                Y:  0
+                                                Z:  105
+                                            Scale:
+                                                X:  1
+                                                Y:  1
+                                                Z:  1
+                                            Translation:
+                                                X:  1.6
+                                                Y:  0.3
+                                                Z:  0
+                                    Children:
+                                        -   Name: AMesh
+                                            Enabled: true
+                                            Components:
+                                                TriangleMesh:
+                                                    LoopSubdivision: 0
+                                                    Material: Toon Material
+                                                    Mesh: Arrow
+                                                Transform:
+                                                    Rotation:
+                                                        X:  0
+                                                        Y:  0
+                                                        Z:  0
+                                                    Scale:
+                                                        X:  2
+                                                        Y:  7
+                                                        Z:  2
+                                                    Translation:
+                                                        X:  -8.1607e-08
+                                                        Y:  0.01
+                                                        Z:  3.28e-07
+                                            Children:
+                                                []
+                                -   Name: StringTop
+                                    Enabled: true
+                                    Components:
+                                        Transform:
+                                            Rotation:
+                                                X:  3.2987e-06
+                                                Y:  0
+                                                Z:  4.7
+                                            Scale:
+                                                X:  1
+                                                Y:  1
+                                                Z:  1
+                                            Translation:
+                                                X:  -0.5
+                                                Y:  1
+                                                Z:  0
+                                    Children:
+                                        -   Name: STCyl
+                                            Enabled: true
+                                            Components:
+                                                Cylinder:
+                                                    Material: Toon Material
+                                                    Subdivisions: 3
+                                                Transform:
+                                                    Rotation:
+                                                        X:  2.3472e-12
+                                                        Y:  0
+                                                        Z:  -8.9056e-14
+                                                    Scale:
+                                                        X:  0.1
+                                                        Y:  1.2
+                                                        Z:  0.1
+                                                    Translation:
+                                                        X:  0
+                                                        Y:  -0.5
+                                                        Z:  0
+                                            Children:
+                                                []
+                                -   Name: StringBot
+                                    Enabled: true
+                                    Components:
+                                        Transform:
+                                            Rotation:
+                                                X:  3.2987e-06
+                                                Y:  0
+                                                Z:  10.3
+                                            Scale:
+                                                X:  1
+                                                Y:  1
+                                                Z:  1
+                                            Translation:
+                                                X:  -0.1
+                                                Y:  -1.2
+                                                Z:  0
+                                    Children:
+                                        -   Name: SBCyl
+                                            Enabled: true
+                                            Components:
+                                                Cylinder:
+                                                    Material: Toon Material
+                                                    Subdivisions: 3
+                                                Transform:
+                                                    Rotation:
+                                                        X:  2.3472e-12
+                                                        Y:  0
+                                                        Z:  -8.9056e-14
+                                                    Scale:
+                                                        X:  0.1
+                                                        Y:  1.2
+                                                        Z:  0.1
+                                                    Translation:
+                                                        X:  0
+                                                        Y:  0.6
+                                                        Z:  0
+                                            Children:
+                                                []
+                -   Name: Left Arm
+                    Enabled: true
+                    Components:
+                        Transform:
+                            Rotation:
+                                X:  0
+                                Y:  120
+                                Z:  -15
+                            Scale:
+                                X:  1
+                                Y:  1
+                                Z:  1
+                            Translation:
+                                X:  -0.5
+                                Y:  0.3
+                                Z:  0
+                    Children:
+                        -   Name: LASphere
+                            Enabled: true
+                            Components:
+                                Sphere:
+                                    Material: Toon Material
+                                    Quality: 4
+                                Transform:
+                                    Rotation:
+                                        X:  0
+                                        Y:  0
+                                        Z:  0
+                                    Scale:
+                                        X:  1.7
+                                        Y:  0.5
+                                        Z:  0.5
+                                    Translation:
+                                        X:  -0.686
+                                        Y:  0
+                                        Z:  0
+                            Children:
+                                []
+                -   Name: Right Leg
+                    Enabled: true
+                    Components:
+                        Transform:
+                            Rotation:
+                                X:  0
+                                Y:  0
+                                Z:  -60
+                            Scale:
+                                X:  1
+                                Y:  1
+                                Z:  1
+                            Translation:
+                                X:  0.2
+                                Y:  -0.6
+                                Z:  0
+                    Children:
+                        -   Name: RLSphere
+                            Enabled: true
+                            Components:
+                                Sphere:
+                                    Material: Toon Material
+                                    Quality: 4
+                                Transform:
+                                    Rotation:
+                                        X:  0
+                                        Y:  0
+                                        Z:  0
+                                    Scale:
+                                        X:  2
+                                        Y:  0.5
+                                        Z:  0.5
+                                    Translation:
+                                        X:  1.2
+                                        Y:  0
+                                        Z:  0
+                            Children:
+                                []
+                -   Name: Left Leg
+                    Enabled: true
+                    Components:
+                        Transform:
+                            Rotation:
+                                X:  0
+                                Y:  0
+                                Z:  60
+                            Scale:
+                                X:  1
+                                Y:  1
+                                Z:  1
+                            Translation:
+                                X:  -0.2
+                                Y:  -0.6
+                                Z:  0
+                    Children:
+                        -   Name: LLSphere
+                            Enabled: true
+                            Components:
+                                Sphere:
+                                    Material: Toon Material
+                                    Quality: 4
+                                Transform:
+                                    Rotation:
+                                        X:  0
+                                        Y:  0
+                                        Z:  0
+                                    Scale:
+                                        X:  2
+                                        Y:  0.5
+                                        Z:  0.5
+                                    Translation:
+                                        X:  -1.2
+                                        Y:  0
+                                        Z:  0
+                            Children:
+                                []
